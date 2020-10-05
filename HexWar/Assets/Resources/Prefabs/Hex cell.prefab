@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 280328640532869022}
   - component: {fileID: 2562688346168097656}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Hex cell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,3 +110,6 @@ MonoBehaviour:
   width: 6
   height: 6
   cellPrefab: {fileID: 0}
+  coordinates:
+    x: 0
+    y: 0

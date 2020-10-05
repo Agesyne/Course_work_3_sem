@@ -1,16 +1,17 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HexGrid : MonoBehaviour
 {
+	public GridForm gridForm;
 	public int width = 6;
 	public int height = 6;
 
 	public HexCell cellPrefab;
+	public Text cellLabelPrefab;
 
 	HexCell[] cells;
-
-	public Text cellLabelPrefab;
 
 	Canvas gridCanvas;
 
@@ -26,13 +27,35 @@ public class HexGrid : MonoBehaviour
 		gridCanvas = GetComponentInChildren<Canvas>();
 		hexMesh = GetComponentInChildren<HexMesh>();
 
-		cells = new HexCell[height * width];
+		if (gridForm == GridForm.Square)
+        {
+			cells = new HexCell[height * width];
 
-		for (int y = 0, i = 0; y < height; y++)
-		{
-			for (int x = 0; x < width; x++)
+			for (int y = 0, i = 0; y < height; y++)
 			{
-				CreateCell(x, y, i++);
+				for (int x = 0; x < width; x++)
+				{
+					CreateCell(x, y, i++);
+				}
+			}
+		}
+		else
+        {
+			var min = Mathf.Min(height, width);
+			// Arithmetic progression
+			cells = new HexCell[(1 + 3 * (min - 1)) * min];
+
+			var counter = 0;
+            for (int y = 0; y < height; y++)
+			{
+				for (int x = 0; x < width; x++)
+				{
+					if (Mathf.Abs(x) + Mathf.Abs(y) <= min)
+					{
+						CreateCell(x, y, counter);
+						counter++;
+					}
+				}
 			}
 		}
 	}
@@ -47,14 +70,16 @@ public class HexGrid : MonoBehaviour
 		HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
 		cell.transform.SetParent(transform, false);
 		cell.transform.localPosition = position;
+		cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, y);
 
 		Text label = Instantiate<Text>(cellLabelPrefab);
 		label.rectTransform.SetParent(gridCanvas.transform, false);
 		label.rectTransform.anchoredPosition =
 			new Vector2(position.x, position.y);
-		label.text = x.ToString() + "\n" + y.ToString();
+		label.text = cell.coordinates.ToStringOnSeparateLines();
 	}
 
+	#region OnDrawGizmos
 	private void OnDrawGizmos()
 	{
 		if (cells == null)
@@ -68,4 +93,31 @@ public class HexGrid : MonoBehaviour
 			Gizmos.DrawSphere(this.transform.position + cells[i].transform.localPosition, 1f);
 		}
 	}
+    #endregion
+
+ //   #region Mouse touch
+ //   void Update()
+	//{
+	//	if (Input.GetMouseButton(0))
+	//	{
+	//		HandleInput();
+	//	}
+	//}
+
+	//void HandleInput()
+	//{
+	//	Ray inputRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+	//	RaycastHit hit;
+	//	if (Physics.Raycast(inputRay, out hit))
+	//	{
+	//		TouchCell(hit.point);
+	//	}
+	//}
+
+	//void TouchCell(Vector3 position)
+	//{
+	//	position = transform.InverseTransformPoint(position);
+	//	Debug.Log("touched at " + position);
+	//}
+ //   #endregion
 }

@@ -6,4 +6,5 @@ public class HexCell : MonoBehaviour
 	public int height = 6;
 
 	public HexCell cellPrefab;
+	public HexCoordinates coordinates;
 }
