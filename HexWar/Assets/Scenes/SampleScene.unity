@@ -417,8 +417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e61cb6eef35f4245a49e4dcd206bac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridForm: 1
-  width: 6
+  gridForm: 0
+  width: 12
   height: 12
   cellPrefab: {fileID: 1838013999}
   cellLabelPrefab: {fileID: 2065827614}

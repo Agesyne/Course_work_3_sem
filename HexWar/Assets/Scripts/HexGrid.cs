@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,24 +40,13 @@ public class HexGrid : MonoBehaviour
 				}
 			}
 		}
+		else if (gridForm == GridForm.Hexagonal)
+        {
+			throw new NotImplementedException();
+		}
 		else
         {
-			var min = Mathf.Min(height, width);
-			// Arithmetic progression
-			cells = new HexCell[(1 + 3 * (min - 1)) * min];
-
-			var counter = 0;
-            for (int y = 0; y < height; y++)
-			{
-				for (int x = 0; x < width; x++)
-				{
-					if (Mathf.Abs(x) + Mathf.Abs(y) <= min)
-					{
-						CreateCell(x, y, counter);
-						counter++;
-					}
-				}
-			}
+			throw new NotImplementedException();
 		}
 	}
 
